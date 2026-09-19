@@ -1,110 +1,48 @@
-# Sharesphere
-A Python + MySQL console application for sharing skills, food, and local help with neighbours.
-# 🏘️ CommunityHub
+# CommunityHub - Console Project
 
-CommunityHub is a simple Python + MySQL console-based community sharing application.
+A simple python + mysql console project for sharing skills, food and help with neighbours.
 
-The project allows people to connect with their neighbours by sharing and finding skills, food, and local help. Users can register, login, send requests, manage connections, and update their profiles.
+## What it does
+- User can register and login
+- Admin can login separately
+- Users can post/find Skills, Food, Help
+- Users can send requests and accept/reject them
+- Mobile number is hidden until request is accepted
+- Users can edit profile and change password
+- Admin can manage users, posts, requests and see reports
 
-## 📌 Project Overview
+## How to run
+1. Open MySQL and run schema.sql:
+   mysql -u root -p < schema.sql
 
-CommunityHub provides three main community services:
+2. Open db.py and put your own mysql password
 
-- 🔄 SkillSwap
-- 🍱 FoodShare
-- 🤝 LocalHelper
+3. Install the library:
+   pip install -r requirements.txt
 
-Users can find available services, send requests, and create connections after a request is accepted.
+4. Run the app:
+   python main.py
 
-The application also provides a separate admin login for managing users, posts, requests, and reports.
+## Admin login
+username: admin
+password: admin123
 
-## ✨ Features
+## Files
+- main.py - starting point of the project
+- db.py - mysql connection
+- schema.sql - database tables
+- modules/helper.py - common functions (hashing, validation, screen clear)
+- modules/auth.py - registration and login
+- modules/skillswap.py, foodshare.py, localhelper.py - the 3 main services
+- modules/myrequests.py - sent and received requests
+- modules/connections.py - accepted connections
+- modules/profile.py - edit profile / change password
+- modules/admin.py - admin dashboard
 
-### 👤 User Features
+## Security
+- Passwords are never stored as plain text. Each user gets a random salt, and the password is hashed with PBKDF2 (100000 rounds) before saving. Same password = different stored hash for every user
+- All database queries use parameterized placeholders (%s), so user input can't break out of the query and run extra SQL
+- Mobile numbers stay hidden in Connections until a request is Accepted
 
-- User registration
-- User login
-- User dashboard
-- SkillSwap
-- FoodShare
-- LocalHelper
-- Send requests
-- Accept or reject requests
-- View sent and received requests
-- View accepted connections
-- Edit profile
-- Change password
-- Mobile number remains hidden until a request is accepted
-
-### 🔄 SkillSwap
-
-Users can share their skills and find skills offered by other users.
-
-Users can:
-
-- Find skills
-- View available skills
-- Select a skill
-- View skill details
-- Send a request
-
-### 🍱 FoodShare
-
-Users can share food with other people in the community.
-
-Users can:
-
-- Find available food
-- Share food
-
-### 🤝 LocalHelper
-
-Users can find or offer local help.
-
-Users can:
-
-- Find available help
-- Offer help
-
-### 📩 Request Management
-
-Users can manage their requests.
-
-The system supports:
-
-- Sent requests
-- Received requests
-- Accept requests
-- Reject requests
-- Connection creation after acceptance
-
-Mobile numbers remain hidden until the request is accepted.
-
-### 👨‍💼 Admin Features
-
-Admin has a separate login and dashboard.
-
-Admin can:
-
-- Manage users
-- Manage SkillSwap posts
-- Manage FoodShare posts
-- Manage LocalHelper posts
-- Manage requests
-- View connections
-- View reports
-
-## 🛠️ Technologies Used
-
-- **Python**
-- **MySQL**
-- **mysql-connector-python**
-
-## 🗄️ Database
-
-MySQL is used as the database for storing application data.
-
-The project connects to a MySQL database named:
-
-```text
-communityhub
+## Known limitations
+- No cascade delete, so deleting a user with existing posts will show an error instead of force deleting
